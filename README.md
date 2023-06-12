@@ -19,7 +19,7 @@ The chosen theme for this portfolio webpage is "Polaroids by DAILY". The theme a
 
 ## Usage
 
-To view the portfolio webpage locally, simply open the `homepage.html` file in a web browser. The webpage can also be deployed to a web server for online access.
+To view the portfolio webpage locally, simply open the `index.html` file in a web browser. The webpage can also be deployed to a web server for online access.
 
 ## Credits
 
