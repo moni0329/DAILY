@@ -325,6 +325,50 @@ h1 {
 			text-align: center;
 			color: #666666;
 		}
+      
+#sidebar {
+  width: 50px;
+  background-color: rgb(55, 214, 166);
+  padding: 1px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  border-radius: 15px;
+  margin-left: 10px;
+  margin-bottom: 100px;
+  z-index: 1;
+}
+
+
+#sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+#sidebar li {
+  margin-bottom: 10px;
+  width: fit-content;
+  width: 36px;
+  margin-left: 1;
+  margin-right: 0;
+  padding: 0;
+}
+
+#sidebar a {
+  color: #333;
+  text-decoration: none;
+}
+
+#sidebar a:hover {
+  color: #ff4081;
+}
+#sidebar ul li a img{
+    width: 30px;
+    margin-left: 5px;
+    height: 30px;
+    margin-right: 5px;
+}
+
 
 		.offer-card p {
 			font-size: 12px;
@@ -443,7 +487,7 @@ h1 {
   letter-spacing: 2px;
 }
 
-		}
+		
 
 		.contact-item {
 			display: flex;
@@ -490,7 +534,7 @@ h1 {
   }
 
   #additionalInfo h3 {
-    font-size: 24
+    font-size: 24;
     color: #333;
     margin-bottom:10px;
     text-align: center;
@@ -569,16 +613,76 @@ h1 {
 	html {
       scroll-behavior: smooth;
     }
-}
+
   </style>
 </head>
 <body>
+  <?php
+  function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
+  $validated = true;
+  $comment = "";
+  $messageErr = "";
+
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+       
+       if (empty($_POST["message"])) {
+           $messageErr = "Message is required";
+           $validated = false;
+       } else {
+     
+       $message = test_input($_POST["message"]);
+       }
+       
+       echo '<script type="text/javascript">
+       window.location = "index.php#contact"
+       </script>';
+   
+   
+   if($validated){
+     $host = "localhost";
+     $username = "root";
+     $password = "";
+     $db = "polaroid";
+
+     $conn = new mysqli($host,$username,$password,$db);
+     if($conn->connect_error){
+         echo "$conn->connect_error";
+         echo '<script>alert("Error Occured...")</script>';
+         echo '<script type="text/javascript">
+         window.location = "index.php"
+         </script>';
+     } else {
+         $stmt = $conn->prepare("insert into tbl_comment(comment) values(?)");
+         $stmt->bind_param("s", $message);
+         $execval = $stmt->execute();
+         echo '<script>alert("Thank you for contacting us..")</script>';
+         echo '<script type="text/javascript">
+         window.location = "index.php"
+         </script>';
+         $stmt->close();
+         $conn->close();
+ }
+ }else{
+     echo '<script type="text/javascript">
+     window.location = "index.php#comment"
+     </script>';
+ }
+}
+  
+  ?>
   <header>
     <nav>
 	   <img src="picture/logo234.png">
       <ul>
 	    <li><a href="login.html">Log In</a></li>
-        <li><a href="register.html">Register</a></li>
+        <li><a href="register.php">Register</a></li>
         <li><a href="#home">Home</a></li>
         <li><a href="#special">Specials</a></li>
         <li><a href="#contact">Contact Us</a></li>
@@ -642,11 +746,12 @@ h1 {
     <p>"The room decoration items I bought from Polaroid by Daily added a charming and cozy touch to my space. Highly recommended!" - Yathra Hapuarachchi</p>
   </div>
 
-  <div class="comment-area">
+  <div class="comment-area" id="comment">
     <h2>Leave a Comment</h2>
-    <form>
-      <textarea placeholder="Your comment"></textarea><br>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+      <textarea placeholder="Your comment" name="message"></textarea><br>
       <input type="submit" value="Submit">
+      <span class="error"><?php echo $messageErr;?></span>
     </form>
   </div>
 </section>  
@@ -672,7 +777,7 @@ h1 {
 	</div>
 	<div class="container">
 		<div class="offer-card">
-			<img src="picture/Keychain1.jpg" alt="Offer 2">
+			<img src="picture/keychain1.jpg" alt="Offer 2">
 			 <div class="overlay">
         <div class="overlay-content">
           <h3>Portfolio Item 2</h3>
@@ -752,16 +857,13 @@ h1 {
 <br>
 <br>
 <aside id="sidebar">
-  <h3>Related Links</h3>
+  
   <ul>
-    <li><a href="#home">Home</a></li>
-    <li><a href="#contact">Contact Us</a></li>
+    <li><a href="#home"><img src="picture/home.png" alt="Home" title="Home" ></a></li>
+    <li><a href="#contact"><img src="picture/contact-mail.png" alt="Contact Us" title="Contact Us" ></a></li>
+    <li><a href="#achievement"><img src="picture/trophy.png" alt="Achievements" title="Achievements" ></a></li>
   </ul>
   
-  <h3>Resources</h3>
-  <ul>
-    <li><a href="#achievement">Achievements</a></li>
-  </ul>
 </aside>
 <br>
 <br>
@@ -773,7 +875,7 @@ h1 {
     <ul>
       <li><a href="https://www.facebook.com/polaroidsbydaily"><img src="picture/fbb.png" alt="Facebook Icon" ></a></li>
       <li><a href="https://www.instagram.com/polaroids_by_daily"><img src="picture/instaa.png" alt="Instagram Icon"></a></li>
-      <li><a href="https://wa.me/94704118798"><img src="picture/WhatsAppp.png" alt="Whatsapp Icon"></a></li>
+      <li><a href="https://wa.me/94704118798"><img src="picture/whatsappp.png" alt="Whatsapp Icon"></a></li>
     </ul>
     <p><font size ="2px">&copy; 2023 Polaroid by Daily. All rights reserved.</font></p>
   </footer>
