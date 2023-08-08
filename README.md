@@ -19,7 +19,11 @@ The chosen theme for this portfolio webpage is "Polaroids by DAILY". The theme a
 
 ## Usage
 
-To view the portfolio webpage locally, simply open the `index.html` file in a web browser. The webpage can also be deployed to a web server for online access.
+To view the portfolio webpage locally, simply open the `index.php` file in a web browser. The webpage can also be deployed to a web server for online access.
+
+## Database integration part
+
+Include Database Configuration in GitHub Repository: Add database configuration details (with an sql dump of my database) with any credentials needed, to my GitHub repository.
 
 ## Credits
 
