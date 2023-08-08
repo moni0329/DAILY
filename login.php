@@ -14,7 +14,6 @@
     if (mysqli_num_rows($result) == 1) {
         // Grant access
         session_start();
-        $_SESSION['username'] = $username;
         echo '<script>alert("Successfulyy Logged In...")</script>';
         echo '<script type="text/javascript">
            window.location = "ourproducts.html"
@@ -23,8 +22,7 @@
         // Deny access
         echo '<script>alert("Invalid user name or password")</script>';
         echo '<script type="text/javascript">
-           window.location = "homepage.html"
+           window.location = "index.php"
          </script>';
     }
 ?>
-
